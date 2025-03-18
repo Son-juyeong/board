@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Controller
 public class UserController {
 
@@ -36,6 +38,30 @@ public class UserController {
     public String register(@ModelAttribute User user, RedirectAttributes redirectAttributes){
         userService.register(user);
         redirectAttributes.addAttribute("username", user.getUsername());
-        return "redirect:register-complete";
+        return "redirect:/register-complete";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(@ModelAttribute("status") boolean status, Model model){
+        model.addAttribute("status", status);
+        return "user/login";
+    }
+
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        RedirectAttributes redirectAttributes){
+        Optional<User> user = userService.login(username, password);
+        boolean status = user.isPresent();
+        redirectAttributes.addAttribute("status", status);
+        if(status){
+            return "redirect:/posts";
+        } else return "redirect:/login";
+    }
+
+    @GetMapping("/posts")
+    public String getPosts(){
+        return "board/list";
     }
 }

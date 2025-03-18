@@ -5,8 +5,14 @@
     <title>Title</title>
 </head>
 <body>
-<div>
-    <h3 th:text="|${username}님 가입 완료되셨습니다.|">이름</h3>
+<div class="container">
+    <div>
+        <h3 th:text="|${username}님 가입 완료되셨습니다.|">이름</h3>
+    </div>
+    <div>
+        <a th:href="@{/login?status=true}">로그인 페이지로 이동</a>
+    </div>
 </div>
+
 </body>
 </html>
