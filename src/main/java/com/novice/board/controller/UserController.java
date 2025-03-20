@@ -2,6 +2,8 @@ package com.novice.board.controller;
 
 import com.novice.board.domain.User;
 import com.novice.board.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,21 +31,18 @@ public class UserController {
     }
 
     @GetMapping("/register-complete")
-    public String registerComplete(@ModelAttribute("username") String username, Model model){
-        model.addAttribute("username", username);
+    public String registerComplete(){
         return "user/register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, RedirectAttributes redirectAttributes){
+    public String register(@ModelAttribute User user){
         userService.register(user);
-        redirectAttributes.addAttribute("username", user.getUsername());
         return "redirect:/register-complete";
     }
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("status") boolean status, Model model){
-        model.addAttribute("status", status);
+    public String loginForm(Model model){
         return "user/login";
     }
 
@@ -51,17 +50,28 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestParam String username,
                         @RequestParam String password,
+                        HttpServletRequest request,
                         RedirectAttributes redirectAttributes){
         Optional<User> user = userService.login(username, password);
         boolean status = user.isPresent();
-        redirectAttributes.addAttribute("status", status);
+        redirectAttributes.addFlashAttribute("status", status);
         if(status){
+            HttpSession session = request.getSession(true);
+            session.setAttribute("userId", user.get().getUserid());
             return "redirect:/posts";
         } else return "redirect:/login";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if(session!=null)session.invalidate();
+        return "redirect:/posts";
+    }
+
     @GetMapping("/posts")
-    public String getPosts(){
+    public String getPosts(HttpSession session, Model model){
+        model.addAttribute("isLogin", session.getAttribute("userId")!=null);
         return "board/list";
     }
 }

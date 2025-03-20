@@ -6,6 +6,8 @@
 </head>
 <body>
 <div class="container">
+    <a th:if="${isLogin==true}" th:href="@{/logout}">로그아웃</a>
+    <a th:if="${isLogin==false}" th:href="@{/login}">로그인</a>
 </div>
 </body>
 </html>
