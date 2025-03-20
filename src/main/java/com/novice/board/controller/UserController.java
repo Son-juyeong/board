@@ -68,10 +68,4 @@ public class UserController {
         if(session!=null)session.invalidate();
         return "redirect:/posts";
     }
-
-    @GetMapping("/posts")
-    public String getPosts(HttpSession session, Model model){
-        model.addAttribute("isLogin", session.getAttribute("userId")!=null);
-        return "board/list";
-    }
 }
