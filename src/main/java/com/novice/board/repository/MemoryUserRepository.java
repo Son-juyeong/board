@@ -1,11 +1,11 @@
 package com.novice.board.repository;
 
 import com.novice.board.domain.User;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Component
+@Repository
 public class MemoryUserRepository implements UserRepository{
 
     private static Map<Long, User> store = new HashMap<>();
