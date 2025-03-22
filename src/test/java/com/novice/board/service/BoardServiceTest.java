@@ -23,7 +23,7 @@ public class BoardServiceTest {
         User user = new User("spring", "스프링", "123456");
         userService.register(user);
         Board board = new Board("글", "글이다.", user.getUserid());
-        boardService.postBoard(board);
+        boardService.postBoard(board, board.getUserid());
         Board findBoard = boardService.findBoard(board.getBoardid()).get();
         assertThat(findBoard).isEqualTo(board);
     }
@@ -39,8 +39,8 @@ public class BoardServiceTest {
         User user2 = new User("spring2", "스프링2", "1234567");
         userService.register(user2);
         Board board2 = new Board("글2", "글이다.2", user2.getUserid());
-        boardService.postBoard(board1);
-        boardService.postBoard(board2);
+        boardService.postBoard(board1, board1.getUserid());
+        boardService.postBoard(board2, board2.getUserid());
         List<Board> boardLists = boardService.findBoardLists();
         assertThat(boardLists.size()).isEqualTo(2);
     }
@@ -53,7 +53,7 @@ public class BoardServiceTest {
         User user = new User("hello", "인사", "123456");
         userService.register(user);
         Board board = new Board("제목", "본문", user.getUserid());
-        boardService.postBoard(board);
+        boardService.postBoard(board, board.getUserid());
         Long id = board.getBoardid();
         Board updateBoard = new Board("제목", "업데이트", user.getUserid());
         boardService.updateBoard(id, updateBoard);
@@ -69,7 +69,7 @@ public class BoardServiceTest {
         User user = new User("user", "사용자", "12356");
         userService.register(user);
         Board board = new Board("제목입니다.", "작성합니다.", user.getUserid());
-        boardService.postBoard(board);
+        boardService.postBoard(board, board.getUserid());
         Long id = board.getBoardid();
         boardService.deleteBoard(id);
         Optional<Board> findBoard = boardService.findBoard(id);

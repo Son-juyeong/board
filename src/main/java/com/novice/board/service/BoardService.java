@@ -20,7 +20,8 @@ public class BoardService {
         this.boardRepository=boardRepository;
     }
 
-    public void postBoard(Board board){
+    public void postBoard(Board board, Long userid){
+        board.setUserid(userid);
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         String postdate = date.toString() + time.toString();
