@@ -13,6 +13,26 @@
     <div>
         <a th:if="${isLogin==true}" th:href="@{/posts/new}">게시물 작성하기</a>
     </div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th></th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board:${boards}">
+                <td th:text="${board.boardid}">아이디</td>
+                <td> <a href="../board.html" th:href="@{|/posts/${board.boardid}|}" th:text="${board.boardname}"></td>
+                <td>작성자</td>
+                <td th:text="${board.postdate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
