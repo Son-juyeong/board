@@ -27,25 +27,25 @@ public class BoardController {
     }
 
     @GetMapping()
-    public String getPostsList(HttpSession session, Model model){
+    public String getBoardsList(HttpSession session, Model model){
         List<Board> boardLists = boardService.findBoardLists();
         model.addAttribute("isLogin", session.getAttribute("userId")!=null);
         model.addAttribute("boards", boardLists);
         return "board/list";
     }
     @GetMapping("/new")
-    public String addPostsForm(){
+    public String addBoardsForm(){
         return "board/addBoardForm";
     }
     @PostMapping("/new")
-    public String addPosts(@ModelAttribute Board board, HttpSession session){
+    public String addBoard(@ModelAttribute Board board, HttpSession session){
         Long userId = Long.parseLong(session.getAttribute("userId").toString());
         boardService.postBoard(board, userId);
         return "redirect:/posts/"+board.getBoardid();
     }
 
     @GetMapping("/{boardid}")
-    public String getPosts(@PathVariable Long boardid, Model model){
+    public String getBoard(@PathVariable Long boardid, Model model){
         Optional<Board> optionalBoard = boardService.findBoard(boardid);
         //optionalBoard.ifPresent(board -> model.addAttribute("board", board));
         if(optionalBoard.isPresent()){
@@ -73,5 +73,11 @@ public class BoardController {
     public String editBoard(@PathVariable Long boardid, @ModelAttribute Board board){
         boardService.updateBoard(boardid, board);
         return "redirect:/posts/"+boardid;
+    }
+
+    @DeleteMapping("/{boardid}/delete")
+    public String deleteBoard(@PathVariable Long boardid){
+        boardService.deleteBoard(boardid);
+        return "redirect:/posts";
     }
 }

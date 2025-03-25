@@ -15,10 +15,19 @@
     <div>
         <h5 th:text="${board.boardtext}">본문</h5>
     </div>
-    <div>
-        <button onclick="location.href='board/editBoardForm.html'"
-                th:onclick="|location.href='@{|/posts/${board.boardid}/edit|}'|"
-                type="button">수정</button>
+    <div class="row">
+        <div class="col">
+            <button onclick="location.href='board/editBoardForm.html'"
+                    th:onclick="|location.href='@{|/posts/${board.boardid}/edit|}'|"
+                    type="button">수정</button>
+        </div>
+        <div class="col">
+            <form th:action="@{|/posts/${board.boardid}/delete|}" method="post">
+                <input type="hidden" name="_method" value="delete">
+                <input type="hidden" name="boardid" value="${board.boardid}">
+                <button type="submit">삭제</button>
+            </form>
+        </div>
     </div>
     <div>
         <button onclick="location.href='board/list.html'"
