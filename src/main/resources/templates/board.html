@@ -16,6 +16,9 @@
         <h5 th:text="${board.boardtext}">본문</h5>
     </div>
     <div>
+        <button onclick="location.href='board/editBoardForm.html'"
+                th:onclick="|location.href='@{|/posts/${board.boardid}/edit|}'|"
+                type="button">수정</button>
     </div>
     <div>
         <button onclick="location.href='board/list.html'"

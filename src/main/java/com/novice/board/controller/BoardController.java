@@ -56,4 +56,22 @@ public class BoardController {
         }
         return "board";
     }
+
+    @GetMapping("/{boardid}/edit")
+    public String editBoardForm(@PathVariable Long boardid, Model model){
+        Optional<Board> optionalBoard = boardService.findBoard(boardid);
+        if(optionalBoard.isPresent()){
+            Board board = optionalBoard.get();
+            model.addAttribute("board", board);
+            User user = userService.findUser(board.getUserid()).get();
+            model.addAttribute("user", user);
+        }
+        return "board/editBoardForm";
+    }
+
+    @PostMapping("/{boardid}/edit")
+    public String editBoard(@PathVariable Long boardid, @ModelAttribute Board board){
+        boardService.updateBoard(boardid, board);
+        return "redirect:/posts/"+boardid;
+    }
 }
