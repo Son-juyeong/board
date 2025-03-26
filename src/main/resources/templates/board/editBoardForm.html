@@ -7,6 +7,7 @@
 <body>
 <div class="container">
   <form th:action method="post">
+    <input type="hidden" name="_method" value="patch">
     <div>
       <input type="text" id="boardname" name="boardname" class="form-control" style="width:300px;height:30px;" value="제목" th:value="${board.boardname}">
     </div>

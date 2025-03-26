@@ -69,7 +69,7 @@ public class BoardController {
         return "board/editBoardForm";
     }
 
-    @PostMapping("/{boardid}/edit")
+    @PatchMapping("/{boardid}/edit")
     public String editBoard(@PathVariable Long boardid, @ModelAttribute Board board){
         boardService.updateBoard(boardid, board);
         return "redirect:/posts/"+boardid;

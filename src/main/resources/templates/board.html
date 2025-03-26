@@ -24,7 +24,6 @@
         <div class="col">
             <form th:action="@{|/posts/${board.boardid}/delete|}" method="post">
                 <input type="hidden" name="_method" value="delete">
-                <input type="hidden" name="boardid" value="${board.boardid}">
                 <button type="submit">삭제</button>
             </form>
         </div>
