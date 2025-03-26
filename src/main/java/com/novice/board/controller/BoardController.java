@@ -63,8 +63,6 @@ public class BoardController {
         if(optionalBoard.isPresent()){
             Board board = optionalBoard.get();
             model.addAttribute("board", board);
-            User user = userService.findUser(board.getUserid()).get();
-            model.addAttribute("user", user);
         }
         return "board/editBoardForm";
     }
